@@ -1,0 +1,64 @@
+#!/bin/env python3
+import os
+import sys
+import shutil
+
+if sys.argv.__len__() != 5 and sys.argv.__len__() != 6:
+    print('Invalid number arguments')
+    exit(84)
+
+try:
+    mode = int(sys.argv[1])
+except Exception as error:
+    print(f"Error: {error}")
+    exit(84)
+
+dest = sys.argv[2]
+original = sys.argv[3]
+new = sys.argv[4]
+
+if dest[-1] != '/':
+    dest = dest + '/'
+
+dirs = os.listdir(dest)
+j = ""
+
+
+if mode == 1:
+    print("Renaming in mode 1")
+    for i in dirs:
+        if original in i:
+            try:
+                j = (i.replace(original, new))
+                os.rename(dest + i, dest + j)
+                print(f"Folder: '{i}'\n")
+                print(f"Renamed to '{j}'")
+            except Exception as error:
+                print(f"Error: {error}")
+
+elif mode == 2:
+    print("Renaming in mode 2")
+    try:
+        nb = int(sys.argv[5])
+    except Exception as error:
+        print(f"Error: {error}")
+        exit(84)
+    try:
+        nb = int(sys.argv[5])
+    except Exception as error:
+        print(f"Error: {error}")
+    nb_times = 0
+    while nb_times <= nb:
+        tmp_original = original.replace("%nb", str(nb_times))
+        nb_times += 1
+        for i in dirs:
+            if tmp_original in i:
+                try:
+                    j = (i.replace(tmp_original, new))
+                    os.rename(dest + i, dest + j)
+                    print(f"Folder: '{i}'\n")
+                    print(f"Renamed to '{j}'")
+                except Exception as error:
+                    print(f"Error: {error}")
+
+print("Done")
